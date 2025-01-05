@@ -1,9 +1,7 @@
 .env
-# Ignore the results folder
-results/
+.venv/
+venv/
 
-# Ignore the keys.env file
+results/
 keys.env
 
-# Ignore the results folder
-results/
