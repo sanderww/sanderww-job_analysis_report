@@ -119,3 +119,10 @@ Access the web interface at `http://localhost:5000` to:
 - `location`: Geographic location filter
 
 - Number of jobs to analyze
+
+
+## Update github repo
+
+git add .
+git commit -m "update"
+git push
