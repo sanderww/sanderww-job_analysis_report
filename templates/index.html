@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .container {
+            display: flex;
+            height: 100vh;
+            padding: 20px;
+            gap: 20px;
+            box-sizing: border-box;
+        }
+        .left-panel, .right-panel {
+            flex: 1;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+        }
+        .right-panel {
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+            font-family: inherit;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        h2 {
+            margin-top: 0;
+        }
+        #response {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: white;
+            overflow-y: auto;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .markdown {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <h2>System Prompt</h2>
+            <form id="promptForm">
+                <textarea id="systemPrompt" rows="6" placeholder="Enter system prompt here..." required></textarea>
+                <h2>Content</h2>
+                <textarea id="textInput" rows="6" placeholder="Enter your content here..." required></textarea>
+                <button type="submit">Analyze</button>
+            </form>
+        </div>
+        <div class="right-panel">
+            <h2>Analysis</h2>
+            <div id="response" class="markdown">
+                <!-- Rendered Markdown will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('promptForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const systemPrompt = document.getElementById('systemPrompt').value;
+            const content = document.getElementById('textInput').value;
+
+            const responseDiv = document.getElementById('response');
+            responseDiv.innerHTML = 'Loading...';
+
+            const response = await fetch('/analyze', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ system_prompt: systemPrompt, content: content })
+            });
+
+            const result = await response.json();
+            if (result.error) {
+                responseDiv.innerHTML = `<span style="color: red;">Error: ${result.error}</span>`;
+            } else {
+                responseDiv.innerHTML = result.analysis;
+            }
+        });
+    </script>
+</body>
+</html>
