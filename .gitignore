@@ -1,7 +1,11 @@
-.env
+# Exclude virtual environments
 .venv/
 venv/
+.env
 
+# Exclude results folder
 results/
+
+# Exclude keys.env file
 keys.env
 
