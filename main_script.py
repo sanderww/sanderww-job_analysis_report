@@ -1,5 +1,7 @@
 search_keys = "product manager"
 location = "Netherlands"
+max_jobs = 10
+output_folder = "report_output"
 
 from dotenv import load_dotenv
 import os
@@ -98,9 +100,12 @@ for element in elements:
 print(f"{len(job_ids)} JOBS FOUND, job ids:")
 print(job_ids)
 
+if len(job_ids) > max_jobs:
+    job_ids = job_ids[:max_jobs]
+
 # Iterate over each job ID and scrape content
 all_summaries_html = ""
-for count, job_id in enumerate(job_ids[0:2]):
+for count, job_id in enumerate(job_ids):
     print(f"count {count+1} - jobid {job_id}")
     try:
         url = f"https://www.linkedin.com/jobs/search/?currentJobId={job_id}"
@@ -156,8 +161,10 @@ import pdfkit
 from datetime import datetime
 
 # Get today's date in the desired format
-todays_date = datetime.now().strftime("%Y-%m-%d %H-%M")
-pdf_file_name = os.path.join('results', f"results_{todays_date}.pdf")
+todays_date = datetime.now().strftime("%Y-%m-%d:%H-%M")
+pdf_file_name = os.path.join(output_folder, f"results_{todays_date}.pdf")
 
 # Convert HTML to PDF
 pdfkit.from_string(all_summaries_html, pdf_file_name)
+
+print(f"PDF report saved to {pdf_file_name}")

@@ -4,7 +4,15 @@
 
 An automated tool that scrapes LinkedIn job postings and provides AI-powered analysis of job descriptions. The project includes both a command-line scraper and a web interface for analyzing job descriptions.
 
-  
+## To do
+add location to script
+change into proper structure
+add tests  
+
+## commit changes
+git add .
+git commit -m "update"
+git push
 
 ## Features
 
