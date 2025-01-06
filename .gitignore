@@ -5,7 +5,11 @@ venv/
 
 # Exclude results folder
 results/
+# Ignore report_output folder
+report_output/
 
 # Exclude keys.env file
 keys.env
 
+# Exclude .DS_Store file
+.DS_Store
