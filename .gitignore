@@ -1,15 +1,36 @@
-# Exclude virtual environments
-.venv/
-venv/
+# Environment variables
+*.env
 .env
-
-# Exclude results folder
-results/
-# Ignore report_output folder
-report_output/
-
-# Exclude keys.env file
 keys.env
 
-# Exclude .DS_Store file
-.DS_Store
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Output files
+report_output/
+*.pdf
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo

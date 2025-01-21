@@ -160,8 +160,8 @@ driver.quit()
 import pdfkit
 from datetime import datetime
 
-# Get today's date in the desired format
 todays_date = datetime.now().strftime("%Y-%m-%d:%H-%M")
+# Get today's date in the desired format
 pdf_file_name = os.path.join(output_folder, f"results_{todays_date}.pdf")
 
 # Convert HTML to PDF

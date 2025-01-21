@@ -1,0 +1,20 @@
+linkedin-job-analyzer/
+├── src/
+│   ├── __init__.py
+│   ├── config/
+│   │   ├── __init__.py
+│   │   └── settings.py
+│   ├── linkedin/
+│   │   ├── __init__.py
+│   │   ├── scraper.py
+│   │   └── auth.py
+│   ├── analysis/
+│   │   ├── __init__.py
+│   │   └── job_analyzer.py
+│   └── utils/
+│       ├── __init__.py
+│       └── pdf_generator.py
+├── report_output/
+├── requirements.txt
+├── README.md
+└── main.py 
