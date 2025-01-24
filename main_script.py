@@ -1,4 +1,4 @@
-search_keys = "product manager"
+job_title = "product manager"
 location = "Netherlands"
 max_jobs = 10
 output_folder = "report_output"
@@ -26,12 +26,10 @@ from sys_prompt import system_prompt
 # Initialize the Chrome driver
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
-# Open LinkedIn login page
+print("\nOpening LinkedIn login page...")
 driver.get("https://www.linkedin.com/login")
 
-# Log in to LinkedIn (replace 'your_email' and 'your_password' with your credentials)
-
-
+print("Entering login credentials...")
 driver.find_element(By.ID, "username").send_keys(username)
 driver.find_element(By.ID, "password").send_keys(password)
 driver.find_element(By.XPATH, "//button[@type='submit']").click()
@@ -41,37 +39,44 @@ input("\n\n\nPress Enter after login successfull...\n\n")
 wait = WebDriverWait(driver, 10)
 feed_page = wait.until(EC.url_contains("https://www.linkedin.com/feed/"))
 
-# Navigate to the Jobs page
-
+print("Navigating to LinkedIn Jobs page...")
 job_url = "https://www.linkedin.com/jobs/"
 driver.get(job_url)
 
 # Wait for the jobs page to load
 jobs_page = wait.until(EC.url_contains(job_url))
 
-# Find the search input field and enter "product manager"
+print(f"Entering job search term: '{job_title}'")
 search_input = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "jobs-search-box__text-input")))
-search_input.send_keys(search_keys)
+search_input.send_keys(job_title)
 
-# Submit the search by pressing Enter
+print("Submitting search...")
 search_input.send_keys(Keys.RETURN)
-"""
-# Find the location input field and enter the location
-# Find the location input field and enter the location
-time.sleep(4)
-location_input = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "jobs-search-box__text-input--with-clear")))
-location_input.send_keys(location)
-location_input.send_keys(Keys.RETURN)
-"""
-# Wait for the search results to load
-time.sleep(5)  # Adjust or replace with a more specific wait if needed
+time.sleep(5)
 
-# Append the URL parameters for filter on remote and experience level
+print("Applying filters for remote work and experience level...")
 driver.get(driver.current_url + "&f_E=4%2C5%2C6&f_WT=2")
+time.sleep(2)
 
+print(f"Setting location filter to: '{location}'")
+location_input = WebDriverWait(driver, 20).until(
+    EC.element_to_be_clickable(
+        (By.XPATH, "//input[@aria-label='City, state, or zip code' and not(@disabled)]")
+    )
+)
 
-# Wait for the modified search results to load
-time.sleep(5) # Adjust if needed
+location_input.clear()
+location_input.send_keys(location)
+time.sleep(2)
+
+print("Clicking search button to apply filters...")
+search_button = WebDriverWait(driver, 10).until(
+    EC.element_to_be_clickable(
+        (By.CSS_SELECTOR, "button.jobs-search-box__submit-button")
+    )
+)
+search_button.click()
+time.sleep(5)
 
 # Initialize a list to store job IDs
 job_ids = []

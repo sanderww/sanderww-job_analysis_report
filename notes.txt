@@ -1,3 +1,9 @@
+## to do
+1. text in pdf overflows
+2. add location to script
+
+
+## project structure
 linkedin-job-analyzer/
 ├── src/
 │   ├── __init__.py
