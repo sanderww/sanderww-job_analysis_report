@@ -5,34 +5,20 @@
 An automated tool that scrapes LinkedIn job postings and provides AI-powered analysis of job descriptions. The project includes both a command-line scraper and a web interface for analyzing job descriptions.
 
 ## To do
-add location to script
-change into proper structure
+change into proper project structure
 add tests  
+add UI to run script from
 
 ## commit changes
-git add .
-git commit -m "update"
-git push
+to commit, merge and push changes from dev run `./git-update-main.sh`
 
 ## Features
 
-  
-
-- LinkedIn job search automation
-
-- Remote job filtering
-
-- Experience level filtering
-
-- AI-powered job description analysis
-
-- Web interface for manual job analysis
-
-- PDF report generation
-
-- Configurable system prompts
-
-  
+1. Open chrome, navigate to linkedin  
+2. search for specfied job title, location and filters
+3. use LLM prompt to extract specific data from each job
+4. add results for all jobs to PDF and save
+5. uss LLM to find best and worst jobs from search results
 
 ## Project Structure
 
@@ -125,5 +111,6 @@ Access the web interface at `http://localhost:5000` to:
 - `search_keys`: Job title to search for
 
 - `location`: Geographic location filter
+- `max results`: Geographic location filter
 
 - Number of jobs to analyze
