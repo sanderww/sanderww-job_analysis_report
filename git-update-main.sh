@@ -17,4 +17,7 @@ git merge dev
 # Stap 5: Push main naar de remote repository
 git push origin main
 
-echo "✅ Dev is succesvol gemerged in main en gepusht naar de remote!"
+# Stap 6: git checkout dev
+git checkout dev
+
+echo "✅ Dev merged to main, push to remote and checkout back to dev"
