@@ -34,3 +34,6 @@ report_output/
 .vscode/
 *.swp
 *.swo
+
+# notes
+notes.text
