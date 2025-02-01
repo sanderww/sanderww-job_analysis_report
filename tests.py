@@ -9,7 +9,7 @@ location = "netherlands"
 """test HTML layout"""
 
 if __name__ == "__main__":
-
+    
     all_summaries_html = """ul>
     <li><p><strong>Company and Title</strong>: BettingJobs, Product Owner - Sports Trading</p></li>
     <li><p><strong>Technical Skills Required</strong>: </p>

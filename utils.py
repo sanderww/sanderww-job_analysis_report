@@ -7,7 +7,7 @@ load_dotenv(dotenv_path)
 open_ai_key = os.getenv('OPENAI_API_KEY') 
 client = OpenAI(api_key=open_ai_key)
 
-def get_description_analysis(content, system_prompt):
+def get_llm_analysis(content, system_prompt):
     messages = [
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": content}

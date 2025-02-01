@@ -1,6 +1,6 @@
 job_title = "head of product"
-location = "Netherlands"
-max_jobs = 3
+location = "South Africa"
+max_jobs = 10
 output_folder = "report_output"
 linkedin_url = "https://www.linkedin.com/login"
 linkedin_jobs_url = "https://www.linkedin.com/jobs/"
@@ -26,8 +26,11 @@ import markdown2
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
-from utils import get_description_analysis
-from sys_prompt import system_prompt
+import pdfkit
+from datetime import datetime
+
+from utils import get_llm_analysis
+from sys_prompt import system_prompt,system_prompt_find_great_job, system_prompt_find_worst_job
 # Initialize the Chrome driver
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
@@ -151,7 +154,7 @@ for count, job_id in enumerate(job_ids):
         # Extract the text from the job details element and its children
         job_details_text = job_details_element.text
         print(f"JOB {job_id}:\n")
-        summarise_text= get_description_analysis(content=job_details_text,system_prompt=system_prompt)
+        summarise_text= get_llm_analysis(content=job_details_text,system_prompt=system_prompt)
         print("\n\n\nSUMMARISED:")
         
         
@@ -180,8 +183,7 @@ for count, job_id in enumerate(job_ids):
 driver.quit()
 
 # Save the summaries as a PDF file
-import pdfkit
-from datetime import datetime
+
 
 todays_date = datetime.now().strftime("%Y-%m-%d:%H-%M")
 # Get today's date in the desired format
@@ -195,3 +197,12 @@ print(full_html)
 # Convert HTML to PDF
 pdfkit.from_string(full_html, pdf_file_name)
 print(f"PDF report saved to {pdf_file_name}")
+
+
+print("\nWORST JOB MATCHES\n")
+best_jobs = get_llm_analysis(system_prompt=ystem_prompt_find_worst_job, content=all_summaries_html)
+print(best_jobs)
+
+print("\nBEST JOB MATCHES\n")
+worst_jobs = get_llm_analysis(system_prompt=system_prompt_find_great_job, content=all_summaries_html)
+print(worst_jobs)
