@@ -4,6 +4,9 @@
 
 An automated tool that scrapes LinkedIn job postings and provides AI-powered analysis of job descriptions. The project includes both a command-line scraper and a web interface for analyzing job descriptions.
 
+![find best jobs](images/example_best_jobs.png)
+![pdf report](images/example_pdf.png)
+
 ## To do
 change into proper project structure
 add tests  
@@ -82,7 +85,7 @@ The scraper will:
 
   
 
-### Web Interface
+### Web Interface to test llm prompt
 
   
 

@@ -1,6 +1,6 @@
 job_title = "head of product"
 location = "South Africa"
-max_jobs = 10
+max_jobs = 5
 output_folder = "report_output"
 linkedin_url = "https://www.linkedin.com/login"
 linkedin_jobs_url = "https://www.linkedin.com/jobs/"
@@ -200,7 +200,7 @@ print(f"PDF report saved to {pdf_file_name}")
 
 
 print("\nWORST JOB MATCHES\n")
-best_jobs = get_llm_analysis(system_prompt=ystem_prompt_find_worst_job, content=all_summaries_html)
+best_jobs = get_llm_analysis(system_prompt=system_prompt_find_worst_job, content=all_summaries_html)
 print(best_jobs)
 
 print("\nBEST JOB MATCHES\n")
