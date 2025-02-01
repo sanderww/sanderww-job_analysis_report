@@ -1,10 +1,15 @@
-job_title = "product manager"
+job_title = "head of product"
 location = "Netherlands"
-max_jobs = 10
+max_jobs = 3
 output_folder = "report_output"
+linkedin_url = "https://www.linkedin.com/login"
+linkedin_jobs_url = "https://www.linkedin.com/jobs/"
+remote_filter = True
+senior_filter = True
 
 from dotenv import load_dotenv
 import os
+from template_script import html_base
 dotenv_path = os.path.join(os.path.dirname(__file__), 'keys.env')
 load_dotenv(dotenv_path)
 username = os.getenv('username') 
@@ -27,7 +32,7 @@ from sys_prompt import system_prompt
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
 print("\nOpening LinkedIn login page...")
-driver.get("https://www.linkedin.com/login")
+driver.get(linkedin_url)
 
 print("Entering login credentials...")
 driver.find_element(By.ID, "username").send_keys(username)
@@ -39,12 +44,12 @@ input("\n\n\nPress Enter after login successfull...\n\n")
 wait = WebDriverWait(driver, 10)
 feed_page = wait.until(EC.url_contains("https://www.linkedin.com/feed/"))
 
-print("Navigating to LinkedIn Jobs page...")
-job_url = "https://www.linkedin.com/jobs/"
-driver.get(job_url)
+print(f"Navigating to LinkedIn Jobs page: {linkedin_jobs_url}...")
+
+driver.get(linkedin_jobs_url)
 
 # Wait for the jobs page to load
-jobs_page = wait.until(EC.url_contains(job_url))
+jobs_page = wait.until(EC.url_contains(linkedin_jobs_url))
 
 print(f"Entering job search term: '{job_title}'")
 search_input = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "jobs-search-box__text-input")))
@@ -54,8 +59,17 @@ print("Submitting search...")
 search_input.send_keys(Keys.RETURN)
 time.sleep(5)
 
-print("Applying filters for remote work and experience level...")
-driver.get(driver.current_url + "&f_E=4%2C5%2C6&f_WT=2")
+
+# LinkedIn URL filters
+print(f"Applying filters for remote work = {remote_filter} and experience level = {senior_filter}...")
+
+filters = ""
+if remote_filter:
+    filters += "&f_WT=2"
+if senior_filter:
+    filters += "&f_E=4%2C5%2C6"
+
+driver.get(driver.current_url + filters)
 time.sleep(2)
 
 print(f"Setting location filter to: '{location}'")
@@ -116,8 +130,8 @@ for count, job_id in enumerate(job_ids):
         url = f"https://www.linkedin.com/jobs/search/?currentJobId={job_id}"
         
         print(f"checking url: {url}")
-        driver.get(url)
 
+        driver.get(url)
         # Retry mechanism for waiting for the job details element to load
         max_retries = 3  # Number of attempts
         for attempt in range(max_retries):
@@ -144,10 +158,14 @@ for count, job_id in enumerate(job_ids):
         summarise_text_markdown = markdown2.markdown(summarise_text)
         print(summarise_text_markdown)
 
-        summarise_text_markdown_full=f"""<pre><code>
-        <h3>JOB ID: {job_id}</h3>
-        <p><strong>URL</strong>: <a href="{url}">{url}</a></p>
-        {summarise_text_markdown}</code></pre>"""
+        summarise_text_markdown_full= f"""
+            <div class="job-summary">
+            <h3>JOB ID: {job_id}</h3>
+            <p><strong>URL:</strong> <a href="{url}">{url}</a></p>
+            <div class="job-description">
+                {summarise_text_markdown}
+            </div>
+            </div>"""
         # Add the current summary to the all_summaries_markdown variable
         all_summaries_html += summarise_text_markdown_full + "\n\n"  # Add a newline for separation
 
@@ -167,9 +185,13 @@ from datetime import datetime
 
 todays_date = datetime.now().strftime("%Y-%m-%d:%H-%M")
 # Get today's date in the desired format
-pdf_file_name = os.path.join(output_folder, f"results_{todays_date}.pdf")
+pdf_file_name = os.path.join(output_folder, f"results_{job_title}_{location}_{todays_date}.pdf")
 
+full_html = html_base.replace("{all_summaries_html}", all_summaries_html)
+full_html = full_html.replace("{job_title}", job_title)
+full_html = full_html.replace("{location}", location)
+full_html = full_html.replace("{today}", datetime.now().strftime("%d-%m-%Y"))
+print(full_html)
 # Convert HTML to PDF
-pdfkit.from_string(all_summaries_html, pdf_file_name)
-
+pdfkit.from_string(full_html, pdf_file_name)
 print(f"PDF report saved to {pdf_file_name}")
