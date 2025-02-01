@@ -1,4 +1,4 @@
-# LinkedIn Job Analyzer
+# Automate finding jobs that fit
 
   
 
