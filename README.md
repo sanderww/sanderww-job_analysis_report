@@ -1,4 +1,4 @@
-# Automate finding jobs that fit
+# Automate finding jobs that fit with llm
 
   
 
@@ -114,6 +114,6 @@ Access the web interface at `http://localhost:5000` to:
 - `search_keys`: Job title to search for
 
 - `location`: Geographic location filter
-- `max results`: Geographic location filter
+- `max results`: limit results for report
 
 - Number of jobs to analyze
