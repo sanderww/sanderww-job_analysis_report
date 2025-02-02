@@ -1,3 +1,6 @@
+import warnings
+warnings.filterwarnings('ignore', message='urllib3 v2 only supports OpenSSL')
+
 job_title = "head of product"
 location = "South Africa"
 max_jobs = 5
@@ -9,28 +12,38 @@ senior_filter = True
 
 from dotenv import load_dotenv
 import os
-from template_script import html_base
-dotenv_path = os.path.join(os.path.dirname(__file__), 'keys.env')
-load_dotenv(dotenv_path)
-username = os.getenv('username') 
-password = os.getenv('password') 
+import time
+import random
+import markdown2
+import pdfkit
+from datetime import datetime
+import keyring  # store credentials in mac key store
+import getpass  # for secure password input
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
-import random
-import markdown2
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
-import pdfkit
-from datetime import datetime
-
-from utils import get_llm_analysis
+from utils import get_llm_analysis, setup_credentials
 from sys_prompt import system_prompt,system_prompt_find_great_job, system_prompt_find_worst_job
+from template_script import html_base
+
+# First time setup (run once to store credentials):
+try:
+    username = keyring.get_password("linkedin", "username")
+    password = keyring.get_password("linkedin", username)
+    if not username or not password:
+        raise keyring.errors.KeyringError
+except keyring.errors.KeyringError:
+    print("Credentials not found. Running first-time setup...")
+    setup_credentials()
+    username = keyring.get_password("linkedin", "username")
+    password = keyring.get_password("linkedin", username)
+
 # Initialize the Chrome driver
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
@@ -60,7 +73,7 @@ search_input.send_keys(job_title)
 
 print("Submitting search...")
 search_input.send_keys(Keys.RETURN)
-time.sleep(5)
+time.sleep(3)
 
 
 # LinkedIn URL filters
@@ -81,7 +94,7 @@ location_input = WebDriverWait(driver, 20).until(
         (By.XPATH, "//input[@aria-label='City, state, or zip code' and not(@disabled)]")
     )
 )
-
+time.sleep(2)
 location_input.clear()
 location_input.send_keys(location)
 time.sleep(2)
@@ -183,8 +196,6 @@ for count, job_id in enumerate(job_ids):
 driver.quit()
 
 # Save the summaries as a PDF file
-
-
 todays_date = datetime.now().strftime("%Y-%m-%d:%H-%M")
 # Get today's date in the desired format
 pdf_file_name = os.path.join(output_folder, f"results_{job_title}_{location}_{todays_date}.pdf")
