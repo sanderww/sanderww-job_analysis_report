@@ -105,8 +105,6 @@ Access the web interface at `http://localhost:5000` to:
 
 ## Configuration
 
-  
-
 - Modify `config/system_prompt.py` to customize the AI analysis
 
 - Adjust search parameters in `src/scraper/linkedin_scraper.py`:
@@ -117,3 +115,15 @@ Access the web interface at `http://localhost:5000` to:
 - `max results`: limit results for report
 
 - Number of jobs to analyze
+
+## start use:
+```
+# Create virtual environment (if you haven't already)
+python -m venv venv
+
+# Activate virtual environment
+source venv/bin/activate
+
+# run script
+python main_script.py
+```

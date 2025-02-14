@@ -8,6 +8,7 @@ system_prompt = """You task is to take in the job description and provide the fo
 - number of employees
 - fully remote work is fine or also going in to office
 - salary
+- Fintech or AI related
 
 don't show cliche generic job description skills like:
 - Proficiency with product management
@@ -21,10 +22,13 @@ don't show cliche generic job description skills like:
 system_prompt_find_great_job = """your task is to look through all the jobs listing below and find the jobs that best match
 1. company that is small for in stance 100 people or less
 2. has a focus on tech skill, not process skills
-3. job that feels low on buraucracy and high on responsibilities
-4. a senior lead role
+3. Fintech or AI related
+4. job that feels low on buraucracy and high on responsibilities
+5. a senior lead role
+
 
 Return th best jobs you can find with URL and reason why it fits, like:
+jobId: 4133558176
 URL: https://www.linkedin.com/jobs/search/?currentJobId=4133558176&geoId=102890719&origin=JOBS_HOME_LOCATION_AUTOCOMPLETE&refresh=true
 Reasoning: small company, mentions using python and this is a lead role
 """

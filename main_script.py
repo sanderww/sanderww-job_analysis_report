@@ -1,9 +1,9 @@
 import warnings
 warnings.filterwarnings('ignore', message='urllib3 v2 only supports OpenSSL')
 
-job_title = "head of product"
+job_title = "Product Manager"
 location = "South Africa"
-max_jobs = 5
+max_jobs = 15
 output_folder = "report_output"
 linkedin_url = "https://www.linkedin.com/login"
 linkedin_jobs_url = "https://www.linkedin.com/jobs/"
@@ -26,7 +26,9 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.chrome import ChromeType
 
 from utils import get_llm_analysis, setup_credentials
 from sys_prompt import system_prompt,system_prompt_find_great_job, system_prompt_find_worst_job
